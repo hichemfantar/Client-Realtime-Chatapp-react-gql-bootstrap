@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import { AuthProvider } from "./context/auth";
 import { MessageProvider } from "./context/message";
 import DynamicRoute from "./utils/DynamicRoute";
-function App() {
+function App() {   
   return (
     <ApolloProvider>
       <AuthProvider>

@@ -3,6 +3,8 @@ import { useQuery, gql, useLazyQuery } from "@apollo/client";
 import { Image, Row, Col, Button } from "react-bootstrap";
 import { useEffect } from "react";
 import { useMessageState, useMessageDispatch } from "../../context/message";
+import Message from "./Message";
+import { Fragment } from "react";
 
 const GET_MESSAGES = gql`
   query getMessages($from: String!) {
@@ -54,14 +56,25 @@ function Messages() {
   } else if (messagesLoading) {
     selectedChatMarkup = <p>Loading</p>;
   } else if (messages.length > 0) {
-    selectedChatMarkup = messages.map((message) => (
-      <p key={message.uuid}>{message.content}</p>
+    selectedChatMarkup = messages.map((message, index) => (
+      <Fragment key={message.uuid}>
+        <Message message={message} />
+        {index === messages.length - 1 && (
+          <div className="invisible">
+            <hr className="m-0" />
+          </div>
+        )}
+      </Fragment>
     ));
   } else if (messages.length === 0) {
     selectedChatMarkup = <p>Send your first message!</p>;
   }
 
-  return <Col xs={8}>{selectedChatMarkup}</Col>;
+  return (
+    <Col xs={10} md={8} className="messages-box d-flex flex-column-reverse">
+      {selectedChatMarkup}
+    </Col>
+  );
 }
 
 export default Messages;
